@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.IDao.OperationMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.domain.Operation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderno" property="orderno" jdbcType="VARCHAR" />
+    <result column="commodityid" property="commodityid" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="operatetime" property="operatetime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="operatetype" property="operatetype" jdbcType="INTEGER" />
+    <result column="sellerid" property="sellerid" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <association property="user" column="userid" select="com.bs.IDao.UserMapper.selectByPrimaryKey"></association>
+    <association property="commodity" column="commodityid" select="com.bs.IDao.CommodityMapper.selectByPrimaryKey"></association>
+    <association property="seller" column="sellerid" select="com.bs.IDao.SellerMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderno, commodityid, amount, operatetime, userid, operatetype, sellerid, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from operation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from operation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bs.domain.Operation" >
+    insert into operation (id, orderno, commodityid, 
+      amount, operatetime, userid, 
+      operatetype, sellerid, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{commodityid,jdbcType=INTEGER}, 
+      #{amount,jdbcType=INTEGER}, #{operatetime,jdbcType=TIMESTAMP}, #{userid,jdbcType=INTEGER}, 
+      #{operatetype,jdbcType=INTEGER}, #{sellerid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bs.domain.Operation" >
+    insert into operation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderno != null" >
+        orderno,
+      </if>
+      <if test="commodityid != null" >
+        commodityid,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="operatetime != null" >
+        operatetime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="operatetype != null" >
+        operatetype,
+      </if>
+      <if test="sellerid != null" >
+        sellerid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityid != null" >
+        #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="operatetime != null" >
+        #{operatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="operatetype != null" >
+        #{operatetype,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null" >
+        #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bs.domain.Operation" >
+    update operation
+    <set >
+      <if test="orderno != null" >
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityid != null" >
+        commodityid = #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="operatetime != null" >
+        operatetime = #{operatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="operatetype != null" >
+        operatetype = #{operatetype,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null" >
+        sellerid = #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bs.domain.Operation" >
+    update operation
+    set orderno = #{orderno,jdbcType=VARCHAR},
+      commodityid = #{commodityid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      operatetime = #{operatetime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=INTEGER},
+      operatetype = #{operatetype,jdbcType=INTEGER},
+      sellerid = #{sellerid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="getOperationList" resultMap="BaseResultMap" parameterType="map" >
+   select 
+    <include refid="Base_Column_List" />
+    from operation
+     <where>  
+        <if test="orderno!=null">  
+            and orderno = #{orderno}  
+        </if>  
+        <if test="commodityid!=null">  
+            and commodityid = #{commodityid}
+        </if>  
+        <if test="userid!=null">  
+            and userid = #{userid}
+        </if>
+         <if test="beginDate != null">
+    		and operatetime <![CDATA[>=]]> #{beginDate}
+   		 </if>
+	    <if test="endDate != null">
+	    	and operatetime <![CDATA[<=]]> #{endDate}
+	    </if>  
+    </where>  
+    limit ${pageIndex},${pageSize}
+  </select>
+    <select id="getAllOperationList" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from operation
+  </select>
+   <select id="getOperationCount" resultType="java.lang.Integer" parameterType="map">
+   	SELECT count(*) from operation
+   	 <where>  
+        <if test="orderno!=null">  
+            and orderno = #{orderno}  
+        </if>  
+        <if test="commodityid!=null">  
+            and commodityid = #{commodityid}
+        </if>  
+        <if test="userid!=null">  
+            and userid = #{userid}
+        </if>
+         <if test="beginDate != null">
+    		and operatetime <![CDATA[>=]]> #{beginDate}
+   		 </if>
+	    <if test="endDate != null">
+	    	and operatetime <![CDATA[<=]]> #{endDate}
+	    </if>  
+    </where>  
+  </select>
+</mapper>

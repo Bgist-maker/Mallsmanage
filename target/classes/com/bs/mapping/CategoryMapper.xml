@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.IDao.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.domain.Category" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="maxamount" property="maxamount" jdbcType="INTEGER" />
+    <result column="minamount" property="minamount" jdbcType="INTEGER" />
+    <result column="sellMaxamount" property="sellMaxamount" jdbcType="INTEGER" />
+    <result column="sellMinamount" property="sellMinamount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, maxamount, minamount,sellMaxamount,sellMinamount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bs.domain.Category" >
+    insert into category (id, name, maxamount, 
+      minamount, sellMaxamount, sellMinamount)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{maxamount,jdbcType=INTEGER}, 
+      #{minamount,jdbcType=INTEGER}, #{sellMaxamount,jdbcType=INTEGER}, #{sellMinamount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bs.domain.Category" >
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="maxamount != null" >
+        maxamount,
+      </if>
+      <if test="minamount != null" >
+        minamount,
+      </if>
+      <if test="sellMaxamount != null" >
+        sellMaxamount,
+      </if>
+      <if test="sellMinamount != null" >
+        sellMinamount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxamount != null" >
+        #{maxamount,jdbcType=INTEGER},
+      </if>
+      <if test="minamount != null" >
+        #{minamount,jdbcType=INTEGER},
+      </if>
+      <if test="sellMaxamount != null" >
+        #{sellMaxamount,jdbcType=INTEGER},
+      </if>
+      <if test="sellMinamount != null" >
+        #{sellMinamount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bs.domain.Category" >
+    update category
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxamount != null" >
+        maxamount = #{maxamount,jdbcType=INTEGER},
+      </if>
+      <if test="minamount != null" >
+        minamount = #{minamount,jdbcType=INTEGER},
+      </if>
+      <if test="sellMaxamount != null" >
+        sellMaxamount = #{sellMaxamount,jdbcType=INTEGER},
+      </if>
+      <if test="sellMinamount != null" >
+        sellMinamount = #{sellMinamount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bs.domain.Category" >
+    update category
+    set name = #{name,jdbcType=VARCHAR},
+      maxamount = #{maxamount,jdbcType=INTEGER},
+      minamount = #{minamount,jdbcType=INTEGER}
+      sellMaxamount = #{sellMaxamount,jdbcType=INTEGER},
+      sellMinamount = #{sellMinamount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="getCategoryList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   select 
+    <include refid="Base_Column_List" />
+    from category
+    limit #{pageIndex},#{pageSize}
+  </select>
+  <select id="getAllCategorys" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from category
+  </select>
+   <select id="getCategoryCount" resultType="java.lang.Integer">
+   	SELECT count(*) from category
+  </select>
+   <select id="getCategoryByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+</mapper>
